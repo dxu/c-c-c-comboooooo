@@ -41,14 +41,35 @@ describe('ComboStack test suite', function () {
     done();
   });
 
-  it('should be able to remove a single value and return an array', function (done) {
+  it('should be able to remove a single value from an empty ComboStack without modifying the array or erroring', function (done) {
+    var combo, pulledResult
+    combo = new ComboStack()
+    combo.push('1')
+    pulledResult = combo.pull('1')
+    combo.contents.length.should.equal(0)
+    pulledResult.should.deep.equal(['1'])
+    done();
+  });
+
+  it('should be able to remove a single value from a ComboStack with one value and return an array with that one value', function (done) {
+    var combo, pulledResult
+    combo = new ComboStack()
+    combo.push('1')
+    pulledResult = combo.pull('1')
+    combo.contents.length.should.equal(0)
+    pulledResult.should.deep.equal(['1'])
+    done();
+  });
+
+  it('should be able to remove a single value from a ComboStack with multiple values and return an array with that one value', function (done) {
     var combo, pulledResult
     combo = new ComboStack()
     combo.push('1')
     combo.push(1)
     pulledResult = combo.pull(1)
+    combo.contents.should.deep.equal(['1'])
     combo.contents.length.should.equal(1)
-    result.should.equal([1])
+    pulledResult.should.deep.equal([1])
     done();
   });
 
