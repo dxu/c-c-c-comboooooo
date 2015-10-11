@@ -9,7 +9,12 @@ ComboStack.prototype.push = function(value) {
 
 // values is an array
 // pull will return the values that were successfully pulled
-ComboStack.prototype.pull = function(values, returnSuccessful=true) {
+ComboStack.prototype.pull = function(values, returnUnsuccessful=false) {
+  if (typeof values === 'undefined' || values === null) {
+    // you want to return anempty removed array, but a clone of the contents
+    // for the leftover array
+    return [];
+  }
   var index, valuesArray;
   var leftover = []
     , removed = []
@@ -30,7 +35,7 @@ ComboStack.prototype.pull = function(values, returnSuccessful=true) {
     }
   }
 
-  return returnSuccessful ? removed : leftover;
+  return returnUnsuccessful ? leftover : removed;
 }
 
 ComboStack.prototype.isEmpty = function() {
