@@ -83,7 +83,7 @@ describe('ComboStack test suite', function () {
     pulledResult = combo.pull([3, '2'])
     combo.contents.should.deep.equal(['1', 1, 2, '3'])
     combo.contents.length.should.equal(4)
-    // is it necessary to be in the same order?!
+    // TODO/THINK: should it be necessary to be in the same order?!
     pulledResult.should.deep.equal([3, '2'])
     done();
   });
