@@ -1,14 +1,13 @@
 const gulp = require('gulp')
-  , concat = require('gulp-concat')
   , sourcemaps = require('gulp-sourcemaps')
   , source = require('vinyl-source-stream')
   , buffer = require('vinyl-buffer')
-  , watch = require('gulp-watch')
   , plumber = require('gulp-plumber')
   , browserify = require('browserify')
   , util = require('gulp-util')
   , watchify = require('watchify')
-  , babelify = require('babelify');
+  , babelify = require('babelify')
+  , shell = require('gulp-shell');
 
 
 function compile(watch) {
@@ -44,3 +43,7 @@ function compile(watch) {
 gulp.task('default', function() {
   compile(true)
 });
+
+gulp.task('test', shell.task([
+  'npm test'
+]))
