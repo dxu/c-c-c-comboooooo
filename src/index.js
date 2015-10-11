@@ -1,3 +1,4 @@
+import {ComboStack} from './ComboStack'
 /*
  * addCombinationEventListener - given a dom element, fire an event when the
  * [key, key, [combination of keys], key]
@@ -7,59 +8,6 @@
  */
 
 const INTERVAL = 500;
-const ComboStack = function() {
-    this.contents = []
-}
-
-ComboStack.prototype.push = function(value) {
-  // pushes item to stack
-  this.contents.push(value)
-}
-
-// values is an array
-ComboStack.prototype.pull = function(values) {
-  var index, valuesArray;
-  var returnArray = []
-  // search for values and pull it out of the stack, and also pull it out of
-  // values
-  // SEARCH STARTING FROM END - THE MOST RECENT ONE FIRST
-  // convert values
-  valuesArray = typeof values === 'Array' ? values : [values]
-
-  // if it's multiple values, then you should return an array.
-
-  // if it's a single value you still return an array.
-  for(var i=this.contents.length; i--;) {
-    if (index = values.indexOf(this.contents[i])) {
-      returnArray.concat(values.splice(index, 1))
-    }
-  }
-  return returnArray;
-}
-
-ComboStack.prototype.isEmpty = function() {
-  return this.contents.length === 0;
-}
-
-// recursive method used to check the last item of an array
-ComboStack._peek = function(arr) {
-  lastItem = arr[arr.length - 1]
-  if (typeof lastItem === 'Array') {
-    return ComboStack._peek(lastItem)
-  } else {
-    return lastItem
-  }
-}
-
-// take a look at the deepest, most recent item that was pushed
-ComboStack.prototype.peek = function() {
-  return this.contents[this.contents.length - 1]
-  // return ComboStack._peek(this.contents[this.contents.length - 1]);
-}
-
-ComboStack.prototype.empty = function() {
-  this.contents = [];
-}
 
 //
 // You should only be able to have a maximum depth of 2 - anytime you lift your
@@ -112,7 +60,12 @@ function addCombinationEventListener(el, callback) {
   // keys, for example D, + E, LIFT D, LIFT E, maybe it SHOULD be considered D + E
   // HOWEVER if you do D, + E, LIFT E, PRESS E QUICKLY< LIFT E, then it should be considered D, E, E, E
   // HOWEVER, if you do D, +E, LIFT E, LIFT D, then it should be considered D + E
-  // however, this should probably be handled already...
+  //
+  // HOWEVER, if you do D (hold), E, E, E, it should be D,E,E,E
+  // HOWEVER, if you do A (hold) D + E, Lift D+E, E, E, E - can't just check last
+  //
+  // we need to check it just strictly based on interval.
+  //
   el.addEventListener('keyup', evt => {
     var partialCombo;
     // immediately push it to the stack if the most recent keydown was the same keyup,
@@ -130,12 +83,10 @@ function addCombinationEventListener(el, callback) {
     // turn that into a stack and push that onto the overall stack.
     keyupInterval = window.setTimeout(function() {
       partialCombo = currentCombination.pull(keyupStack.contents)
-      if(partialCombo.length) {
+      if (partialCombo.length) {
         partialCombo.length > 1 ?
           stack.push(partialCombo) : stack.concat(partialCombo)
       }
     })
   })
 }
-
-
