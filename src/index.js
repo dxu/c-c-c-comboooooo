@@ -7,9 +7,8 @@
  */
 
 const INTERVAL = 500;
-
-ComboStack = function() {
-  this.contents = []
+const ComboStack = function() {
+    this.contents = []
 }
 
 ComboStack.prototype.push = function(value) {
@@ -20,6 +19,7 @@ ComboStack.prototype.push = function(value) {
 // values is an array
 ComboStack.prototype.pull = function(values) {
   var index, valuesArray;
+  var returnArray = []
   // search for values and pull it out of the stack, and also pull it out of
   // values
   // SEARCH STARTING FROM END - THE MOST RECENT ONE FIRST
@@ -27,14 +27,14 @@ ComboStack.prototype.pull = function(values) {
   valuesArray = typeof values === 'Array' ? values : [values]
 
   // if it's multiple values, then you should return an array.
-  // if it's a single value, you should return a single value.
+
+  // if it's a single value you still return an array.
   for(var i=this.contents.length; i--;) {
     if (index = values.indexOf(this.contents[i])) {
-      returnArray.push(values.splice(index, 1))
-
+      returnArray.concat(values.splice(index, 1))
     }
   }
-  return returnArray
+  return returnArray;
 }
 
 ComboStack.prototype.isEmpty = function() {
@@ -95,7 +95,7 @@ function addCombinationEventListener(el, callback) {
         stack = new ComboStack()
       // otherwise we continue trying to detect
       } else {
-        interval = window.setTimeout(newCombination, INTERVAL)
+        interval = window.setTimeout(newCombinationInterval, INTERVAL)
       }
     }, INTERVAL);
   })
@@ -114,6 +114,7 @@ function addCombinationEventListener(el, callback) {
   // HOWEVER, if you do D, +E, LIFT E, LIFT D, then it should be considered D + E
   // however, this should probably be handled already...
   el.addEventListener('keyup', evt => {
+    var partialCombo;
     // immediately push it to the stack if the most recent keydown was the same keyup,
     // because that means that they pressed the button and released
     // if (currentCombination.peek() === evt.keyCode) {
@@ -128,7 +129,11 @@ function addCombinationEventListener(el, callback) {
     // Start a keyupInterval, that upon finishing, will pull everything from the currentCombination, and then
     // turn that into a stack and push that onto the overall stack.
     keyupInterval = window.setTimeout(function() {
-      stack.push(currentCombination.pull(keyupStack.contents))
+      partialCombo = currentCombination.pull(keyupStack.contents)
+      if(partialCombo.length) {
+        partialCombo.length > 1 ?
+          stack.push(partialCombo) : stack.concat(partialCombo)
+      }
     })
   })
 }
