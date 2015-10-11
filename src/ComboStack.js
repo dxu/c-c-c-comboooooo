@@ -8,27 +8,29 @@ ComboStack.prototype.push = function(value) {
 }
 
 // values is an array
-ComboStack.prototype.pull = function(values) {
+// pull will return the values that were successfully pulled
+ComboStack.prototype.pull = function(values, returnSuccessful=true) {
   var index, valuesArray;
-  var returnArray = []
-  // search for values and pull it out of the stack, and also pull it out of
-  // values
-  // SEARCH STARTING FROM END - THE MOST RECENT ONE FIRST
-  // convert values
-  valuesArray = Object.prototype.toString.call(values) === '[object Array]' ?
-    values : [values]
+  var leftover = []
+    , removed = []
+    , values = Object.prototype.toString.call(values) === '[object Array]' ?
+        values : [values]
 
-  // if it's multiple values, then you should return an array.
+  // can't use buckets because associative arrays don't support integer keys
+  // for every value, check for the last index of the key in the contents
+  // have to iterate up because values
+  for (var i=0; i < values.length; i++) {
 
-  // if it's a single value you still return an array.
-  for(var i=this.contents.length; i--;) {
-    if (index = valuesArray.indexOf(this.contents[i]) !== -1) {
-      returnArray = returnArray.concat(this.contents.splice(i, 1))
-      // remove it from the valuesArray as well so you don't remove duplicates
-      valuesArray.splice(index, 1)
+    if((index = this.contents.lastIndexOf(values[i])) !== -1 ) {
+      // if in contents, remove and add it
+      removed = removed.concat(this.contents.splice(index, 1))
+    } else {
+      // if not in contents, just push it to the leftovers
+      leftover.push(values[i])
     }
   }
-  return returnArray;
+
+  return returnSuccessful ? removed : leftover;
 }
 
 ComboStack.prototype.isEmpty = function() {
