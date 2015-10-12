@@ -69,7 +69,7 @@ describe('ComboStack test suite', function () {
 
   it('should be able to remove a single value from a ComboStack with one value and return an array with that one value', function (done) {
     var pulledResult = fixtureSingleStack.pull('1')
-    fixtureEmptyStack.contents.length.should.equal(0)
+    fixtureEmptyStack.contents.should.be.empty
     pulledResult.should.deep.equal(['1'])
     done();
   });
@@ -101,7 +101,7 @@ describe('ComboStack test suite', function () {
 
   it('should be able to pull everything', function (done) {
     var pulledResult = fixtureMultipleStack.pull(['1', 1, '2', 2, '3', 3])
-    fixtureMultipleStack.contents.length.should.equal(0)
+    fixtureMultipleStack.contents.should.be.empty
     // TODO/THINK: should it be necessary to be in the same order?!
     pulledResult.should.deep.equal(['1', 1, '2', 2, '3', 3])
     done();
@@ -109,7 +109,7 @@ describe('ComboStack test suite', function () {
 
   it('should be able to pull more than there is available', function (done) {
     var pulledResult = fixtureMultipleStack.pull(['1', 1, '2', 2, '3', 3, '4', 4])
-    fixtureMultipleStack.contents.length.should.equal(0)
+    fixtureMultipleStack.contents.should.be.empty
     // TODO/THINK: should it be necessary to be in the same order?!
     pulledResult.should.deep.equal(['1', 1, '2', 2, '3', 3])
     done();
@@ -119,7 +119,7 @@ describe('ComboStack test suite', function () {
 
   it('should be able to remove a single value from an empty ComboStack without modifying the array or erroring', function (done) {
     var pulledResult = fixtureEmptyStack.pull('1')
-    fixtureEmptyStack.contents.length.should.equal(0)
+    fixtureEmptyStack.contents.should.be.empty
     done();
   });
 
@@ -199,7 +199,7 @@ describe('ComboStack test suite', function () {
 
   it('should be able to get the leftovers of trying to remove everything', function (done) {
     var pulledResult = fixtureMultipleStack.pull(['1', 1, '2', 2, '3', 3], true)
-    fixtureMultipleStack.contents.length.should.equal(0)
+    fixtureMultipleStack.contents.should.be.empty
     // TODO/THINK: should it be necessary to be in the same order?!
     pulledResult.should.deep.equal([])
     done();
@@ -207,7 +207,7 @@ describe('ComboStack test suite', function () {
 
   it('should be able to get the leftovers after pulling more than there is available', function (done) {
     var pulledResult = fixtureMultipleStack.pull(['1', 1, '2', 2, '3', 3, '4', 4], true)
-    fixtureMultipleStack.contents.length.should.equal(0)
+    fixtureMultipleStack.contents.should.be.empty
     // TODO/THINK: should it be necessary to be in the same order?!
     pulledResult.should.deep.equal(['4', 4])
     done();
@@ -215,11 +215,26 @@ describe('ComboStack test suite', function () {
 
   /* Peeking */
 
+  it('should be able to peek at the last item in a combostack with non-combostack values', function (){
+    fixtureMultipleStack.peek().should.equal(3)
+    fixtureMultipleStack.push(7)
+    fixtureMultipleStack.peek().should.equal(7)
+  })
+
+  // TODO: ComboStack should be able to support non-primitive values.
 
   /* Emptying */
 
   it('should be able empty an empty ComboStack without erroring', function (done) {
+    fixtureEmptyStack.empty()
+    fixtureEmptyStack.contents.should.be.empty
+    done();
+  });
 
+  it('should be able empty a filled ComboStack without erroring', function (done) {
+    fixtureMultipleStack.contents.should.not.be.empty
+    fixtureMultipleStack.empty()
+    fixtureMultipleStack.contents.should.be.empty
     done();
   });
 
