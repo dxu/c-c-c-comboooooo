@@ -2,6 +2,7 @@ export function ComboStack() {
     this.contents = []
 }
 
+// combostacks  are only meant to hold primitives, strings, and other ComboStacks!
 ComboStack.prototype.push = function(value) {
   // pushes item to stack
   this.contents.push(value)
@@ -42,6 +43,7 @@ ComboStack.prototype.isEmpty = function() {
   return this.contents.length === 0;
 }
 
+// if it's an array, should return the last item of the last item
 // recursive method used to check the last item of an array
 ComboStack._peek = function(arr) {
   lastItem = arr[arr.length - 1]

@@ -14,10 +14,11 @@ const INTERVAL = 500;
 // finger you are incurring another "step". only when all your fingers have been
 // lifted should the countdown timer start. The keup interval determines
 // whether or not your combination was merged together
-function addCombinationEventListener(el, callback) {
+window.addCombinationEventListener = function addCombinationEventListener(el, callback) {
   let stack = new ComboStack()
+    , currentlyHeldKeys = {}  // for preventing multiple keydowns from firing
     , currentCombination = new ComboStack()
-    , interval
+    , keypressInterval
     , keyupInterval
     , keyupStack = new ComboStack();
 
@@ -29,13 +30,20 @@ function addCombinationEventListener(el, callback) {
   // more keypresses, and there is nothing in the current combination, then
   // you're done with the combination
   el.addEventListener('keydown', (evt) => {
-    // each time you trigger a keydown, reset the interval,
-    window.clearTimeout(interval);
+    // check if currently being held - return if so
+    if (currentlyHeldKeys[evt.keyCode]) {
+      return
+    } else {
+      currentlyHeldKeys[evt.keyCode] = true
+    }
+
+    // each time you trigger a keydown, reset the keypressInterval,
+    window.clearTimeout(keypressInterval);
     currentCombination.push(evt.keyCode)
 
-    interval = window.setTimeout(function newCombinationInterval() {
+    keypressInterval = window.setTimeout(function newCombinationInterval() {
       // check if the currentCombination is empty. if it is, then end. If not,
-      // reset interval
+      // reset keypressInterval
       if (currentCombination.isEmpty()) {
         //
         callback(stack.contents)
@@ -43,7 +51,7 @@ function addCombinationEventListener(el, callback) {
         stack = new ComboStack()
       // otherwise we continue trying to detect
       } else {
-        interval = window.setTimeout(newCombinationInterval, INTERVAL)
+        keypressInterval = window.setTimeout(newCombinationInterval, INTERVAL)
       }
     }, INTERVAL);
   })
@@ -67,6 +75,8 @@ function addCombinationEventListener(el, callback) {
   // we need to check it just strictly based on interval.
   //
   el.addEventListener('keyup', evt => {
+    // release this key in the map
+    currentlyHeldKeys[evt.keyCode] = false
     var partialCombo;
     // immediately push it to the stack if the most recent keydown was the same keyup,
     // because that means that they pressed the button and released
@@ -84,8 +94,9 @@ function addCombinationEventListener(el, callback) {
     keyupInterval = window.setTimeout(function() {
       partialCombo = currentCombination.pull(keyupStack.contents)
       if (partialCombo.length) {
+        // if the partial combination is a single
         partialCombo.length > 1 ?
-          stack.push(partialCombo) : stack.concat(partialCombo)
+          stack.push(partialCombo) : stack.push(partialCombo[0]) // TODO: Should i push a ComboStack? because this is a combination of items
       }
     })
   })
