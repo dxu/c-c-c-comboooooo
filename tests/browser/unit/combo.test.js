@@ -52,7 +52,7 @@ describe('ComboStack test suite', function () {
   }
 
   // execute an immediate keyDownUp
-  function _keyDownUp(element, keyCode, timeout) {
+  Object.prototype._keyDownUp = function _keyDownUp(element, keyCode, timeout) {
     timeout = timeout || 0
     console.log(timeout)
     return new Promise(function(resolve, reject) {
@@ -80,6 +80,16 @@ describe('ComboStack test suite', function () {
       done()
     })
     _keyDownUp(fixtureInputElement, KEYCODE_A)
+  })
+
+  if('should fire a single keypress when you make the same keypress more than one time in a row very quickly', function (done) {
+    addCombinationEventListener(fixtureInputElement, function(result) {
+      result.should.deep.equal([KEYCODE_A])
+
+      _keyDownUp(fixtureInputElement, KEYCODE_A)
+        .then()
+      done(_keyDownUp(fixtureInputElement, KEYCODE_A))
+    })
   })
 
   it('should pass multiple keypresses of 2 different keys together', function (done) {
