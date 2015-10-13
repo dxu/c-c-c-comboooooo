@@ -7,7 +7,7 @@ import {ComboStack} from './ComboStack'
  * the event
  */
 
-const INTERVAL = 250;
+const INTERVAL = 100;
 
 //
 // You should only be able to have a maximum depth of 2 - anytime you lift your
