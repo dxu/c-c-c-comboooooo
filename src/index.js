@@ -7,7 +7,7 @@ import {ComboStack} from './ComboStack'
  * the event
  */
 
-const INTERVAL = 500;
+const INTERVAL = 250;
 
 //
 // You should only be able to have a maximum depth of 2 - anytime you lift your
@@ -93,7 +93,6 @@ window.addCombinationEventListener = function addCombinationEventListener(el, ca
     // turn that into a stack and push that onto the overall stack.
     keyupInterval = window.setTimeout(function() {
       partialCombo = currentCombination.pull(keyupStack.contents)
-      console.log(partialCombo, keyupStack)
       if (partialCombo.length) {
         // if the partial combination is a single
         partialCombo.length > 1 ?
