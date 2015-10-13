@@ -7,6 +7,7 @@ import {ComboStack} from './ComboStack'
  * the event
  */
 
+// any shorter and clicking 'a' repeatedly will cause a combination of [a,a,a,a]
 const INTERVAL = 100;
 
 //
