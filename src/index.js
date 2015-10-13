@@ -93,11 +93,14 @@ window.addCombinationEventListener = function addCombinationEventListener(el, ca
     // turn that into a stack and push that onto the overall stack.
     keyupInterval = window.setTimeout(function() {
       partialCombo = currentCombination.pull(keyupStack.contents)
+      console.log(partialCombo, keyupStack)
       if (partialCombo.length) {
         // if the partial combination is a single
         partialCombo.length > 1 ?
           stack.push(partialCombo) : stack.push(partialCombo[0]) // TODO: Should i push a ComboStack? because this is a combination of items
       }
-    })
+      // empty the keyupStack
+      keyupStack.empty()
+    }, INTERVAL)
   })
 }
