@@ -5,5 +5,7 @@ $(function(){
     console.log('result', result)
   }, function(partialCombo) {
     console.log('partialCombo', partialCombo)
+  }, function(currentCombo) {
+    console.log('currentCombo', currentCombo)
   })
 })

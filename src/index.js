@@ -15,7 +15,7 @@ const INTERVAL = 100;
 // finger you are incurring another "step". only when all your fingers have been
 // lifted should the countdown timer start. The keup interval determines
 // whether or not your combination was merged together
-window.addCombinationEventListener = function addCombinationEventListener(el, callback, partialCallback) {
+window.addCombinationEventListener = function addCombinationEventListener(el, callback, partialCallback, currentCallback) {
   let stack = new ComboStack()
     , currentlyHeldKeys = {}  // for preventing multiple keydowns from firing
     , currentCombination = new ComboStack()
@@ -37,6 +37,9 @@ window.addCombinationEventListener = function addCombinationEventListener(el, ca
     // each time you trigger a keydown, reset the keypressInterval,
     window.clearTimeout(keypressInterval);
     currentCombination.push(evt.keyCode)
+    if (currentCallback !== null && typeof currentCallback !== 'undefined') {
+      currentCallback(currentCombination.contents)
+    }
 
     keypressInterval = window.setTimeout(function newCombinationInterval() {
       // check if the currentCombination is empty. if it is, then end. If not,
@@ -95,7 +98,9 @@ window.addCombinationEventListener = function addCombinationEventListener(el, ca
         partialCombo.length > 1 ?
           stack.push(partialCombo) : stack.push(partialCombo[0]) // TODO: Should i push a ComboStack? because this is a combination of items
         // TODO: should execute partial callback
-        partialCallback(partialCombo)
+        if (partialCallback !== null && typeof partialCallback !== 'undefined') {
+          partialCallback(partialCombo)
+        }
       }
       // empty the keyupStack
       keyupStack.empty()
