@@ -82,14 +82,24 @@ describe('ComboStack test suite', function () {
     _keyDownUp(fixtureInputElement, KEYCODE_A)
   })
 
-  if('should fire a single keypress when you make the same keypress more than one time in a row very quickly', function (done) {
+  it('should fire a single keypress when you make the same keypress more than one time in a row very quickly', function (done) {
     addCombinationEventListener(fixtureInputElement, function(result) {
       result.should.deep.equal([KEYCODE_A])
-
-      _keyDownUp(fixtureInputElement, KEYCODE_A)
-        .then()
-      done(_keyDownUp(fixtureInputElement, KEYCODE_A))
+      done()
     })
+    _keyDown(fixtureInputElement, KEYCODE_A)
+      .then(_keyDown.bind(null, fixtureInputElement, KEYCODE_A))
+      .then(_keyDown.bind(null, fixtureInputElement, KEYCODE_A))
+      .then(_keyDown.bind(null, fixtureInputElement, KEYCODE_A))
+      .then(_keyDown.bind(null, fixtureInputElement, KEYCODE_A))
+      .then(_keyDown.bind(null, fixtureInputElement, KEYCODE_A))
+      .then(_keyDown.bind(null, fixtureInputElement, KEYCODE_A))
+      .then(_keyDown.bind(null, fixtureInputElement, KEYCODE_A))
+      .then(_keyDown.bind(null, fixtureInputElement, KEYCODE_A))
+      .then(_keyDown.bind(null, fixtureInputElement, KEYCODE_A))
+      .then(_keyDown.bind(null, fixtureInputElement, KEYCODE_A))
+      .then(_keyDown.bind(null, fixtureInputElement, KEYCODE_A))
+      .then(_keyUp.bind(null, fixtureInputElement, KEYCODE_A))
   })
 
   it('should pass keypresses of 2 different keys together', function (done) {
@@ -190,10 +200,22 @@ describe('ComboStack test suite', function () {
       .then(_keyUp.bind(null, fixtureInputElement, KEYCODE_A, SEPARATE_INTERVAL))
   })
 
-  it('should pass if ')
-
-
-
-
+  it('should pass complex combinations of multiple and single keypresses', function(done) {
+    addCombinationEventListener(fixtureInputElement, function(result) {
+      result.should.deep.equal([[KEYCODE_A, KEYCODE_B, KEYCODE_C], [KEYCODE_A, KEYCODE_B, KEYCODE_C, KEYCODE_D], [KEYCODE_A, KEYCODE_B], KEYCODE_A, KEYCODE_A])
+      done()
+    })
+    _keyDownUp(fixtureInputElement, KEYCODE_A)
+      .then(_keyDownUp.bind(null, fixtureInputElement, KEYCODE_B))
+      .then(_keyDownUp.bind(null, fixtureInputElement, KEYCODE_C))
+      .then(_keyDownUp.bind(null, fixtureInputElement, KEYCODE_A, SLOW_INTERVAL))
+      .then(_keyDownUp.bind(null, fixtureInputElement, KEYCODE_B))
+      .then(_keyDownUp.bind(null, fixtureInputElement, KEYCODE_C))
+      .then(_keyDownUp.bind(null, fixtureInputElement, KEYCODE_D))
+      .then(_keyDownUp.bind(null, fixtureInputElement, KEYCODE_A, SLOW_INTERVAL))
+      .then(_keyDownUp.bind(null, fixtureInputElement, KEYCODE_B))
+      .then(_keyDownUp.bind(null, fixtureInputElement, KEYCODE_A, SLOW_INTERVAL))
+      .then(_keyDownUp.bind(null, fixtureInputElement, KEYCODE_A, SLOW_INTERVAL))
+  })
 
 });
