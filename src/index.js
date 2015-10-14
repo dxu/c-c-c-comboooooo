@@ -23,10 +23,6 @@ window.addCombinationEventListener = function addCombinationEventListener(el, ca
     , keyupInterval
     , keyupStack = new ComboStack();
 
-  el.addEventListener('c-c-c-combooo', (evt) => {
-    callback(evt.detail)
-  });
-
   // checks your keydown event. if after INTERVAL amount of time, there are no
   // more keypresses, and there is nothing in the current combination, then
   // you're done with the combination
@@ -98,6 +94,8 @@ window.addCombinationEventListener = function addCombinationEventListener(el, ca
         // if the partial combination is a single
         partialCombo.length > 1 ?
           stack.push(partialCombo) : stack.push(partialCombo[0]) // TODO: Should i push a ComboStack? because this is a combination of items
+        // TODO: should trigger an event here (c-c-c-partial-combo)
+
       }
       // empty the keyupStack
       keyupStack.empty()
