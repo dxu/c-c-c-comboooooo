@@ -44,6 +44,10 @@ gulp.task('default', function() {
   compile(true)
 });
 
+gulp.task('build', function() {
+  compile(false)
+});
+
 gulp.task('test', shell.task([
   'npm test'
 ]))
