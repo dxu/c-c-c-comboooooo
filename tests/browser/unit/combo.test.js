@@ -54,7 +54,6 @@ describe('ComboStack test suite', function () {
   // execute an immediate keyDownUp
   Object.prototype._keyDownUp = function _keyDownUp(element, keyCode, timeout) {
     timeout = timeout || 0
-    console.log(timeout)
     return new Promise(function(resolve, reject) {
       window.setTimeout(function() {
         _generateKeyDownUpEvent(element, keyCode, 'keyup')
