@@ -12,9 +12,17 @@ import {constants} from './constants'
 const INTERVAL = 100
 
 function dispatchComboEvent(el, name, data) {
-  let event = new CustomEvent(name, {
-    detail: data
-  })
+  let event;
+  // if CustomEvent exists and is a function...
+  if('CustomEvent' in window && typeof window.CustomEvent === 'function') {
+    event = new CustomEvent(name, {
+      detail: data
+    })
+  } else {
+    event = document.createEvent('CustomEvent')
+    event.initCustomEvent(name, true, false, data)
+  }
+
   el.dispatchEvent(event)
 }
 
