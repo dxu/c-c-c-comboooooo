@@ -47,7 +47,7 @@ function setupCombinationEventListener(el, callback, partialCallback, currentCal
 
     // trigger an update to the current combination
     if (currentCallback !== null && typeof currentCallback !== 'undefined') {
-      currentCallback(currentCombination.contents)
+      currentCallback.call(el, currentCombination.contents)
     } else {
       dispatchComboEvent(el, constants.CURRENT_EVENT_NAME,
                          currentCombination.contents)
@@ -58,7 +58,7 @@ function setupCombinationEventListener(el, callback, partialCallback, currentCal
       // reset keypressInterval
       if (currentCombination.isEmpty()) {
         //
-        callback(stack.contents)
+        callback.call(el, stack.contents)
         // reset the stack for the future
         stack = new ComboStack()
       // otherwise we continue trying to detect
@@ -111,7 +111,7 @@ function setupCombinationEventListener(el, callback, partialCallback, currentCal
           stack.push(partialCombo) : stack.push(partialCombo[0]) // TODO: Should i push a ComboStack? because this is a combination of items
         // TODO: should execute partial callback
         if (partialCallback !== null && typeof partialCallback !== 'undefined') {
-          partialCallback(partialCombo)
+          partialCallback.call(el, partialCombo)
         } else {
           dispatchComboEvent(el, constants.PARTIAL_EVENT_NAME,
                              partialCombo)
