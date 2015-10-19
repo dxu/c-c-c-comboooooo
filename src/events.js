@@ -126,13 +126,17 @@ function setupCombinationEventListener(el, callback, partialCallback, currentCal
 // on the partial combination event, fire the callback
 function onPartialCombinationEvent(el, callback) {
   console.log('wjeofijwef')
-  el.addEventListener(constants.PARTIAL_EVENT_NAME, callback.bind(null, evt.detail))
+  el.addEventListener(constants.PARTIAL_EVENT_NAME, function(evt) {
+    callback.call(this, evt.detail)
+  })
 }
 
 // on the partial combination event, fire the callback
 function onCurrentCombinationEvent(el, callback) {
   console.log('oifjweofikpf')
-  el.addEventListener(constants.CURRENT_EVENT_NAME, callback.bind(null, evt.detail))
+  el.addEventListener(constants.CURRENT_EVENT_NAME, function(evt) {
+    callback.call(this, evt.detail)
+  })
 }
 
 export {setupCombinationEventListener, onPartialCombinationEvent,
