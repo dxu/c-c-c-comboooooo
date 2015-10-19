@@ -1,3 +1,4 @@
+// THIS SHOULD BE TRANSPARENT TO THE END USER
 export function ComboStack() {
     this.contents = []
 }
@@ -10,6 +11,8 @@ ComboStack.prototype.push = function(value) {
 
 // values is an array
 // pull will return the values that were successfully pulled
+// pull can only pull an array of inidivual keys. You should never be pulling
+// arrays of arrays.
 ComboStack.prototype.pull = function(values, returnUnsuccessful=false) {
   if (typeof values === 'undefined' || values === null) {
     // you want to return anempty removed array, but a clone of the contents

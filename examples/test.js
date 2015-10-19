@@ -1,11 +1,15 @@
 
 (() => console.log('hello'))();
 $(function(){
-  addCombinationEventListener($('#test')[0], function(result){
+  var element = $('#test')[0]
+  cccombo.setupCombinationEventListener(element, function(result){
     console.log('result', result)
-  }, function(partialCombo) {
+  })
+  cccombo.onPartialCombinationEvent(element, function(partialCombo) {
     console.log('partialCombo', partialCombo)
-  }, function(currentCombo) {
+  })
+  cccombo.onCurrentCombinationEvent(element, function(currentCombo) {
     console.log('currentCombo', currentCombo)
   })
+
 })

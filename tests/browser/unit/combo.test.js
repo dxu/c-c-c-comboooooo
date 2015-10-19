@@ -74,7 +74,7 @@ describe('ComboStack test suite', function () {
 
   it('should pass single keypresses', function (done) {
 
-    addCombinationEventListener(fixtureInputElement, function(result) {
+    window.cccombo.setupCombinationEventListener(fixtureInputElement, function(result) {
       result.should.deep.equal([KEYCODE_A])
       done()
     })
@@ -82,7 +82,7 @@ describe('ComboStack test suite', function () {
   })
 
   it('should fire a single keypress when you make the same keypress more than one time in a row very quickly', function (done) {
-    addCombinationEventListener(fixtureInputElement, function(result) {
+    window.cccombo.setupCombinationEventListener(fixtureInputElement, function(result) {
       result.should.deep.equal([KEYCODE_A])
       done()
     })
@@ -102,7 +102,7 @@ describe('ComboStack test suite', function () {
   })
 
   it('should pass keypresses of 2 different keys together', function (done) {
-    addCombinationEventListener(fixtureInputElement, function(result) {
+    window.cccombo.setupCombinationEventListener(fixtureInputElement, function(result) {
       result.should.deep.equal([[KEYCODE_A, KEYCODE_B]])
       done()
     })
@@ -113,7 +113,7 @@ describe('ComboStack test suite', function () {
   })
 
   it('should pass 2 single keypresses of the same letter within the same combination', function(done) {
-    addCombinationEventListener(fixtureInputElement, function(result) {
+    window.cccombo.setupCombinationEventListener(fixtureInputElement, function(result) {
       result.should.deep.equal([KEYCODE_A, KEYCODE_A])
       done()
     })
@@ -124,7 +124,7 @@ describe('ComboStack test suite', function () {
   })
 
   it('should pass 2 spaced single keypresses of the same letter with separate combination', function(done) {
-    addCombinationEventListener(fixtureInputElement, function(result) {
+    window.cccombo.setupCombinationEventListener(fixtureInputElement, function(result) {
       result.should.deep.equal([KEYCODE_A, KEYCODE_A])
       done()
     })
@@ -135,7 +135,7 @@ describe('ComboStack test suite', function () {
   })
 
   it('should pass a keypress of two letters A & B, and then multiple single keypresses of button A and button B', function(done) {
-    addCombinationEventListener(fixtureInputElement, function(result) {
+    window.cccombo.setupCombinationEventListener(fixtureInputElement, function(result) {
       result.should.deep.equal([[KEYCODE_A, KEYCODE_B], KEYCODE_B, KEYCODE_A, KEYCODE_B])
       done()
     })
@@ -149,7 +149,7 @@ describe('ComboStack test suite', function () {
   })
 
   it('should pass multiple single keypresses of button A and button B, and then a keypress of two letters A & B', function(done) {
-    addCombinationEventListener(fixtureInputElement, function(result) {
+    window.cccombo.setupCombinationEventListener(fixtureInputElement, function(result) {
       result.should.deep.equal([KEYCODE_B, KEYCODE_A, KEYCODE_B, [KEYCODE_A, KEYCODE_B]])
       done()
     })
@@ -163,7 +163,7 @@ describe('ComboStack test suite', function () {
   })
 
   it('should pass multiple spaced simultaneous A & B keypresses', function(done) {
-    addCombinationEventListener(fixtureInputElement, function(result) {
+    window.cccombo.setupCombinationEventListener(fixtureInputElement, function(result) {
       result.should.deep.equal([[KEYCODE_A, KEYCODE_B], [KEYCODE_A, KEYCODE_B], [KEYCODE_A, KEYCODE_B], [KEYCODE_A, KEYCODE_B]])
       done()
     })
@@ -186,7 +186,7 @@ describe('ComboStack test suite', function () {
   })
 
   it('should pass if you just hold A down for a really long time, while continuing to press B, and lifting A at the end', function(done) {
-    addCombinationEventListener(fixtureInputElement, function(result) {
+    window.cccombo.setupCombinationEventListener(fixtureInputElement, function(result) {
       result.should.deep.equal([KEYCODE_B, KEYCODE_B, KEYCODE_B, KEYCODE_B, KEYCODE_B, KEYCODE_A])
       done()
     })
@@ -200,7 +200,7 @@ describe('ComboStack test suite', function () {
   })
 
   it('should pass complex combinations of multiple and single keypresses', function(done) {
-    addCombinationEventListener(fixtureInputElement, function(result) {
+    window.cccombo.setupCombinationEventListener(fixtureInputElement, function(result) {
       result.should.deep.equal([[KEYCODE_A, KEYCODE_B, KEYCODE_C], [KEYCODE_A, KEYCODE_B, KEYCODE_C, KEYCODE_D], [KEYCODE_A, KEYCODE_B], KEYCODE_A, KEYCODE_A])
       done()
     })
