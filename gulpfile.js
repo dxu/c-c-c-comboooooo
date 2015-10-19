@@ -12,11 +12,11 @@ const gulp = require('gulp')
 
 function compile(watch) {
   const bundler =
-    watch ? watchify(browserify('./src/index.js', { debug: true })
+    watch ? watchify(browserify('./src/api.js', { debug: true })
       // for es6 module support
       .add(require.resolve('babelify/polyfill'))
       .transform(babelify))
-    : browserify('./src/index.js', { debug: true })
+    : browserify('./src/api.js', { debug: true })
       // for es6 module support
       .add(require.resolve('babelify/polyfill'))
       .transform(babelify)
